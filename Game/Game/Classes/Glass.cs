@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Audio.OpenAL;
@@ -15,63 +14,60 @@ using StbImageSharp;
 
 namespace Game
 {
-	public class Cookie
+	public class Glass
 	{
-		float[] cookieVertices =
+		float[] glassVertices =
 		{
-			-0.8f, -0.3f, -2f, // top left 0
-			-0.6f, -0.3f, -2f, // top right 1
-			-0.6f, -0.5f, -2f, // bottom right 2
-			-0.8f, -0.5f, -2f //bottom left 3
+			-0.2f, -0.3f, -2f, //top left 0
+			 0.0f, -0.3f, -2f, //top right 1
+			 0.0f, -0.5f, -2f, //bottom right 2
+			-0.2f, -0.5f, -2f, // bottom left 3
 		};
-
-
 		Indices indices = new Indices();
 		TexCoord texCoord = new TexCoord();
 
-		public int cookieVAO;
-		public int cookieVBO;
-		public int cookieEBO;
-		public int cookieTextureID;
-		public int cookieTextureVBO;
+		public int glassVAO;
+		public int glassVBO;
+		public int glassEBO;
+		public int glassTextureID;
+		public int glassTextureVBO;
 
-
-		public void LoadCookie()
+		public void LoadGlass()
 		{
 			//Create, bind VAO
-			cookieVAO = GL.GenVertexArray();
-			GL.BindVertexArray(cookieVAO);
+			glassVAO = GL.GenVertexArray();
+			GL.BindVertexArray(glassVAO);
 			//Create, bind VBO
-			cookieVBO = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ArrayBuffer, cookieVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, cookieVertices.Length * sizeof(float), cookieVertices, BufferUsageHint.StaticDraw);
+			glassVBO = GL.GenBuffer();
+			GL.BindBuffer(BufferTarget.ArrayBuffer, glassVBO);
+			GL.BufferData(BufferTarget.ArrayBuffer, glassVertices.Length * sizeof(float), glassVertices, BufferUsageHint.StaticDraw);
 			//Point slot of VAO 0
 			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-			GL.EnableVertexArrayAttrib(cookieVAO, 0);
+			GL.EnableVertexArrayAttrib(glassVAO, 0);
 			//Unbind VBO
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			//Create, bind EBO
-			cookieEBO = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, cookieEBO);
+			glassEBO = GL.GenBuffer();
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, glassEBO);
 			GL.BufferData(BufferTarget.ElementArrayBuffer, indices.indices.Length * sizeof(uint), indices.indices, BufferUsageHint.StaticDraw);
 			//Unbind EBO
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 			//Create, bind texture
-			cookieTextureVBO = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ArrayBuffer, cookieTextureVBO);
+			glassTextureVBO = GL.GenBuffer();
+			GL.BindBuffer(BufferTarget.ArrayBuffer, glassTextureVBO);
 			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Length * sizeof(float), texCoord.texCoord, BufferUsageHint.StaticDraw);
 			//Point slot of VAO 1
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
-			GL.EnableVertexArrayAttrib(cookieVAO, 1);
+			GL.EnableVertexArrayAttrib(glassVAO, 1);
 			//Unbind VBO
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindVertexArray(0);
 		}
-		public void TextureCookie()
+		public void TextureGlass()
 		{
-			cookieTextureID = GL.GenTexture();
+			glassTextureID = GL.GenTexture();
 			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, cookieTextureID);
+			GL.BindTexture(TextureTarget.Texture2D, glassTextureID);
 
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
@@ -79,23 +75,23 @@ namespace Game
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
 			StbImage.stbi_set_flip_vertically_on_load(1);
-			ImageResult cookieTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/cookie.jpg"), ColorComponents.RedGreenBlueAlpha);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, cookieTexture.Width, cookieTexture.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, cookieTexture.Data);
+			ImageResult glassTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/glass.jpg"), ColorComponents.RedGreenBlueAlpha);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, glassTexture.Width, glassTexture.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, glassTexture.Data);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 
 		}
-		public void BindCookie()
+		public void BindGlass()
 		{
-			GL.BindVertexArray(cookieVAO);
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, cookieEBO);
-			GL.BindTexture(TextureTarget.Texture2D, cookieTextureID);
+			GL.BindVertexArray(glassVAO);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, glassEBO);
+			GL.BindTexture(TextureTarget.Texture2D, glassTextureID);
 		}
-		public void UnLoadCookie()
+		public void UnLoadGlass()
 		{
-			GL.DeleteBuffer(cookieVAO);
-			GL.DeleteBuffer(cookieVBO);
-			GL.DeleteBuffer(cookieEBO);
-			GL.DeleteTexture(cookieTextureID);
+			GL.DeleteBuffer(glassVAO);
+			GL.DeleteBuffer(glassVBO);
+			GL.DeleteBuffer(glassEBO);
+			GL.DeleteTexture(glassTextureID);
 		}
 
 	}

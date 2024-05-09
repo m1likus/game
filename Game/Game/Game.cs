@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Audio.OpenAL;
@@ -14,109 +15,38 @@ using StbImageSharp;
 
 namespace Game
 {
-	internal class Game : GameWindow
+	public class Indices
 	{
-
-
-		float[] vertices =
-		{
-			 0.5f,  0.5f, 0.0f,  // top right 0
-			 0.5f, -0.5f, 0.0f,  // bottom right 1
-			-0.5f, -0.5f, 0.0f,  // bottom left 2
-			-0.5f,  0.5f, 0.0f   // top left 3
-			 
-		};
-
-		float[] cookieCoords =
-		{
-			0f,1f,
-			1f,1f,
-			1f,0f,
-			0f,0f,
-		};
-
-
-
-		uint[] indices =
+		public uint[] indices =
 		{
 			//top triangle
-			0,1,2,
+			0, 1, 2,
 			//bottom triangle
-			2,3,0
+			2, 3, 0
 		};
-
-
-		int vertexArrayObject;
-		int shaderHandle;
-		int vertexBufferObject;
-		int elementBufferObject;
-		int textureID;
-		int textureVBO;
-
-		int width, height;
-
-		public Game(int width, int height) : base (GameWindowSettings.Default, NativeWindowSettings.Default)
+	}
+	public class TexCoord
+	{
+		public float[] texCoord =
 		{
-			//center
-			CenterWindow(new Vector2i(width, height));
-			//initialize
-			this.width = width;
-			this.height = height;
-		}
+			0f, 1f,
+			1f, 1f,
+			1f, 0f,
+			0f, 0f,
+		};
+	}
 
-		protected override void OnResize(ResizeEventArgs e)
+	public class Shader {
+		public int shaderHandle;
+		public void LoadShader()
 		{
-			base.OnResize(e);
-			GL.Viewport(0,0, e.Width, e.Height);
-			this.width = e.Width;
-			this.height = e.Height;
-		}
-		protected override void OnLoad()
-		{
-			base.OnLoad();
-
-			//create vao
-			vertexArrayObject = GL.GenVertexArray();
-			//bind vao
-			GL.BindVertexArray(vertexArrayObject);
-			//create vertex vbo
-			vertexBufferObject = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
-
-			//point slot of vao 0
-			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-			GL.EnableVertexArrayAttrib(vertexArrayObject, 0);
-			//unbind vbo
-			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-			//GL.BindVertexArray(0);
-
-			elementBufferObject = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
-			GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-			//create texture
-			textureVBO = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ArrayBuffer, textureVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, cookieCoords.Length * sizeof(float), cookieCoords, BufferUsageHint.StaticDraw);
-
-			//point slot of vao 1
-			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
-			GL.EnableVertexArrayAttrib(vertexArrayObject, 1);
-			//unbind vbo
-			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-			GL.BindVertexArray(0);
-
-
-
 			shaderHandle = GL.CreateProgram();
-
 			int vertexShader = GL.CreateShader(ShaderType.VertexShader);
-			GL.ShaderSource(vertexShader, LoadShaderSource("Default.vert"));
+			GL.ShaderSource(vertexShader, LoadShaderSource("shader.vert"));
 			GL.CompileShader(vertexShader);
 
 			int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-			GL.ShaderSource(fragmentShader, LoadShaderSource("Default.frag"));
+			GL.ShaderSource(fragmentShader, LoadShaderSource("shader.frag"));
 			GL.CompileShader(fragmentShader);
 
 			GL.AttachShader(shaderHandle, vertexShader);
@@ -124,61 +54,16 @@ namespace Game
 
 			GL.LinkProgram(shaderHandle);
 
+			GL.DetachShader(shaderHandle, vertexShader);
+			GL.DetachShader(shaderHandle, fragmentShader);
+
 			GL.DeleteShader(vertexShader);
 			GL.DeleteShader(fragmentShader);
-
-			// -- TEXTURES --
-			textureID = GL.GenTexture();
-
-			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, textureID);
-
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-			GL.TexParameter(TextureTarget.Texture2D,TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
-
-			StbImage.stbi_set_flip_vertically_on_load(1);
-			ImageResult cookieTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/cookie.jpg"), ColorComponents.RedGreenBlueAlpha);
-
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, cookieTexture.Width, cookieTexture.Height, 0,
-				PixelFormat.Rgba, PixelType.UnsignedByte, cookieTexture.Data);
-
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-
 		}
-		protected override void OnUnload()
-		{
-			base.OnUnload();
 
-			GL.DeleteVertexArray(vertexArrayObject);
-			GL.DeleteBuffer(vertexBufferObject);
-			GL.DeleteBuffer(elementBufferObject);
-			GL.DeleteTexture(textureID);
+		public void DeleteShader()
+		{
 			GL.DeleteProgram(shaderHandle);
-		}
-		protected override void OnRenderFrame(FrameEventArgs args)
-		{
-			GL.ClearColor(0.1f, 0.3f, 0.8f, 0.5f);
-			GL.Clear(ClearBufferMask.ColorBufferBit);
-
-			GL.UseProgram(shaderHandle);
-			GL.BindTexture(TextureTarget.Texture2D, textureID);
-
-
-			GL.BindVertexArray(vertexArrayObject);
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
-			GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
-
-
-			Context.SwapBuffers();
-
-			base.OnRenderFrame(args);
-
-		}
-		protected override void OnUpdateFrame(FrameEventArgs args)
-		{
-			base.OnUpdateFrame(args);
 		}
 
 		public static string LoadShaderSource(string filepath)
@@ -197,6 +82,141 @@ namespace Game
 			}
 			return shaderSource;
 		}
+	}
+
+
+
+	internal class Game : GameWindow
+	{
+		int width, height;
+
+		Indices indices = new Indices();
+		Cookie cookie = new Cookie();
+		Glass glass = new Glass();
+		Table table = new Table();
+
+		Shader shader = new Shader();
+
+		public Game(int width, int height) : base (GameWindowSettings.Default, NativeWindowSettings.Default)
+		{
+			//center
+			CenterWindow(new Vector2i(width, height));
+			//initialize
+			this.width = width;
+			this.height = height;
+		}
+		protected override void OnResize(ResizeEventArgs e)
+		{
+			base.OnResize(e);
+			GL.Viewport(0,0, e.Width, e.Height);
+			this.width = e.Width;
+			this.height = e.Height;
+		}
+		protected override void OnLoad()
+		{
+			base.OnLoad();
+
+			cookie.LoadCookie();
+			glass.LoadGlass();
+			table.LoadTable();
+
+			shader.LoadShader();
+
+			cookie.TextureCookie();
+			glass.TextureGlass();
+			table.TextureTable();
+
+		}
+		protected override void OnUnload()
+		{
+			base.OnUnload();
+
+			cookie.UnLoadCookie();
+			glass.UnLoadGlass();
+			table.UnLoadTable();
+
+			shader.DeleteShader();
+
+		}
+		protected override void OnRenderFrame(FrameEventArgs args)
+		{
+			GL.ClearColor(0.1f, 0.3f, 0.8f, 0.5f);
+			GL.Clear(ClearBufferMask.ColorBufferBit);
+
+			GL.UseProgram(shader.shaderHandle);
+			
+			//Draw table
+			table.BindTable();
+			Matrix4 tableModel = Matrix4.Identity;
+			Matrix4 tableView = Matrix4.Identity;
+			Matrix4 tableProjection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), (float)width / (float)height, 0.1f, 100f);
+
+			//Matrix4 tableTranslation = Matrix4.CreateTranslation(0f, 0f, 0f);
+			//tableModel = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(90f));
+			//tableModel *= tableTranslation;
+
+			int tableModelLocation = GL.GetUniformLocation(shader.shaderHandle, "model");
+			int tableViewLocation = GL.GetUniformLocation(shader.shaderHandle, "view");
+			int tableProjectionLocation = GL.GetUniformLocation(shader.shaderHandle, "projection");
+
+			GL.UniformMatrix4(tableModelLocation, true, ref tableModel);
+			GL.UniformMatrix4(tableViewLocation, true, ref tableView);
+			GL.UniformMatrix4(tableProjectionLocation, true, ref tableProjection);
+
+			GL.DrawElements(PrimitiveType.Triangles, indices.indices.Length, DrawElementsType.UnsignedInt, 0);
+
+			//Draw cookie
+			cookie.BindCookie();
+			Matrix4 cookieModel = Matrix4.Identity;
+			Matrix4 cookieView = Matrix4.Identity;
+			Matrix4 cookieProjection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), (float)width / (float)height, 0.1f, 100f);
+
+			//Matrix4 cookieTranslation = Matrix4.CreateTranslation(0f, 0f, 0f);
+			//cookieModel = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(90f));
+			//cookieModel *= cookieTranslation;
+
+			int cookieModelLocation = GL.GetUniformLocation(shader.shaderHandle, "model");
+			int cookieViewLocation = GL.GetUniformLocation(shader.shaderHandle, "view");
+			int cookieProjectionLocation = GL.GetUniformLocation(shader.shaderHandle, "projection");
+
+			GL.UniformMatrix4(cookieModelLocation, true, ref cookieModel);
+			GL.UniformMatrix4(cookieViewLocation, true, ref cookieView);
+			GL.UniformMatrix4(cookieProjectionLocation, true, ref cookieProjection);
+
+			GL.DrawElements(PrimitiveType.Triangles, indices.indices.Length, DrawElementsType.UnsignedInt, 0);
+
+			//Draw glass of milk
+			glass.BindGlass();
+			Matrix4 glassModel = Matrix4.Identity;
+			Matrix4 glassView = Matrix4.Identity;
+			Matrix4 glassProjection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), (float)width / (float)height, 0.1f, 100f);
+
+			Matrix4 glassTranslation = Matrix4.CreateTranslation(-0.1f, 0f, 0f);
+			//glassModel = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(90f));
+			glassModel *= glassTranslation;
+
+			int glassModelLocation = GL.GetUniformLocation(shader.shaderHandle, "model");
+			int glassViewLocation = GL.GetUniformLocation(shader.shaderHandle, "view");
+			int glassProjectionLocation = GL.GetUniformLocation(shader.shaderHandle, "projection");
+
+			GL.UniformMatrix4(glassModelLocation, true, ref glassModel);
+			GL.UniformMatrix4(glassViewLocation, true, ref glassView);
+			GL.UniformMatrix4(glassProjectionLocation, true, ref glassProjection);
+
+
+
+			GL.DrawElements(PrimitiveType.Triangles, indices.indices.Length, DrawElementsType.UnsignedInt, 0);
+
+			Context.SwapBuffers();
+
+			base.OnRenderFrame(args);
+
+		}
+		protected override void OnUpdateFrame(FrameEventArgs args)
+		{
+			base.OnUpdateFrame(args);
+		}
+
 
 	}
 }

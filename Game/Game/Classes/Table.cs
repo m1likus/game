@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Audio.OpenAL;
@@ -15,63 +14,62 @@ using StbImageSharp;
 
 namespace Game
 {
-	public class Cookie
+	public class Table
 	{
-		float[] cookieVertices =
+		float[] tableVertices =
 		{
-			-0.8f, -0.3f, -2f, // top left 0
-			-0.6f, -0.3f, -2f, // top right 1
-			-0.6f, -0.5f, -2f, // bottom right 2
-			-0.8f, -0.5f, -2f //bottom left 3
+			-1f, 1f, -2f, // top left 0
+			1f, 1f, -2f, //top right 1
+			1f, -1f, -2f, // bottom right 2
+			-1f, -1f, -2f, //bottom left 3
 		};
-
 
 		Indices indices = new Indices();
 		TexCoord texCoord = new TexCoord();
 
-		public int cookieVAO;
-		public int cookieVBO;
-		public int cookieEBO;
-		public int cookieTextureID;
-		public int cookieTextureVBO;
+		public int tableVAO;
+		public int tableVBO;
+		public int tableEBO;
+		public int tableTextureID;
+		public int tableTextureVBO;
 
 
-		public void LoadCookie()
+		public void LoadTable()
 		{
 			//Create, bind VAO
-			cookieVAO = GL.GenVertexArray();
-			GL.BindVertexArray(cookieVAO);
+			tableVAO = GL.GenVertexArray();
+			GL.BindVertexArray(tableVAO);
 			//Create, bind VBO
-			cookieVBO = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ArrayBuffer, cookieVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, cookieVertices.Length * sizeof(float), cookieVertices, BufferUsageHint.StaticDraw);
+			tableVBO = GL.GenBuffer();
+			GL.BindBuffer(BufferTarget.ArrayBuffer, tableVBO);
+			GL.BufferData(BufferTarget.ArrayBuffer, tableVertices.Length * sizeof(float), tableVertices, BufferUsageHint.StaticDraw);
 			//Point slot of VAO 0
 			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-			GL.EnableVertexArrayAttrib(cookieVAO, 0);
+			GL.EnableVertexArrayAttrib(tableVAO, 0);
 			//Unbind VBO
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			//Create, bind EBO
-			cookieEBO = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, cookieEBO);
+			tableEBO = GL.GenBuffer();
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, tableEBO);
 			GL.BufferData(BufferTarget.ElementArrayBuffer, indices.indices.Length * sizeof(uint), indices.indices, BufferUsageHint.StaticDraw);
 			//Unbind EBO
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 			//Create, bind texture
-			cookieTextureVBO = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ArrayBuffer, cookieTextureVBO);
+			tableTextureVBO = GL.GenBuffer();
+			GL.BindBuffer(BufferTarget.ArrayBuffer, tableTextureVBO);
 			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Length * sizeof(float), texCoord.texCoord, BufferUsageHint.StaticDraw);
 			//Point slot of VAO 1
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
-			GL.EnableVertexArrayAttrib(cookieVAO, 1);
+			GL.EnableVertexArrayAttrib(tableVAO, 1);
 			//Unbind VBO
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindVertexArray(0);
 		}
-		public void TextureCookie()
+		public void TextureTable()
 		{
-			cookieTextureID = GL.GenTexture();
+			tableTextureID = GL.GenTexture();
 			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, cookieTextureID);
+			GL.BindTexture(TextureTarget.Texture2D, tableTextureID);
 
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
@@ -79,23 +77,24 @@ namespace Game
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
 			StbImage.stbi_set_flip_vertically_on_load(1);
-			ImageResult cookieTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/cookie.jpg"), ColorComponents.RedGreenBlueAlpha);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, cookieTexture.Width, cookieTexture.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, cookieTexture.Data);
+			ImageResult tableTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/table.jpg"), ColorComponents.RedGreenBlueAlpha);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, tableTexture.Width, tableTexture.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, tableTexture.Data);
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
+		public void BindTable()
+		{
+			GL.BindVertexArray(tableVAO);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, tableEBO);
+			GL.BindTexture(TextureTarget.Texture2D, tableTextureID);
+
 
 		}
-		public void BindCookie()
+		public void UnLoadTable()
 		{
-			GL.BindVertexArray(cookieVAO);
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, cookieEBO);
-			GL.BindTexture(TextureTarget.Texture2D, cookieTextureID);
-		}
-		public void UnLoadCookie()
-		{
-			GL.DeleteBuffer(cookieVAO);
-			GL.DeleteBuffer(cookieVBO);
-			GL.DeleteBuffer(cookieEBO);
-			GL.DeleteTexture(cookieTextureID);
+			GL.DeleteBuffer(tableVAO);
+			GL.DeleteBuffer(tableVBO);
+			GL.DeleteBuffer(tableEBO);
+			GL.DeleteTexture(tableTextureID);
 		}
 
 	}
