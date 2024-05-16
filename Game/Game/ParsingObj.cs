@@ -92,15 +92,11 @@ namespace Game
 		private void InitBuffers()
 		{
 			float[] vertexData = new float[vertexCount * 8];
-			for (int i = 0, vi = 0, ti = 0, ni = 0; i < vertexCount; i++, vi += 3, ti += 2, ni += 3)
+			for (int i = 0, vi = 0, ti = 0, ni = 0; i < vertexCount; i++, vi++, ti++, ni++)
 			{
 				vertexData[i * 8] = vertices[vi].X;
 				vertexData[i * 8 + 1] = vertices[vi].Y;
 				vertexData[i * 8 + 2] = vertices[vi].Z;
-				if (ni == 192)
-				{
-					ni = 192;
-				}
 				vertexData[i * 8 + 3] = normals[ni].X;
 				vertexData[i * 8 + 4] = normals[ni].Y;
 				vertexData[i * 8 + 5] = normals[ni].Z;

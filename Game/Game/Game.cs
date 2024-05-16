@@ -205,8 +205,8 @@ namespace Game
 			glass.TextureGlass();
 			table.TextureTable();
 
-			//cookie1 = new Object("cookie.obj");
-			//glass1 = new Object("glass of milk.obj");
+			cookie1 = new Object("cookie.obj");
+			glass1 = new Object("glass of milk.obj");
 			table1 = new Object("table.obj");
 
 			camera = new Camera(width, height, Vector3.Zero);
@@ -252,9 +252,9 @@ namespace Game
 
 				GL.UseProgram(shader.shaderHandle);
 
-				//cookie1.Draw();
+				cookie1.Draw();
 				//glass1.Draw();
-				//table1.Draw();
+				table1.Draw();
 
 				//Draw table
 				table.BindTable();
