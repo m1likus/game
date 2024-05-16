@@ -16,12 +16,38 @@ namespace Game
 {
 	public class Glass
 	{
-		float[] glassVertices =
+		List<Vector3> glassVertices = new List<Vector3>()
 		{
-			-0.2f, -0.3f, -2f, //top left 0
-			 0.0f, -0.3f, -2f, //top right 1
-			 0.0f, -0.5f, -2f, //bottom right 2
-			-0.2f, -0.5f, -2f, // bottom left 3
+			//front face
+			new Vector3(-0.8f, -0.3f, -2f), // top left vertex
+			new Vector3(-0.6f, -0.3f, -2f), // top right vertex 
+			new Vector3(-0.6f, -0.5f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.5f, -2f), // bottom left vertex
+			//right face
+			new Vector3(-0.6f, -0.3f, -2f), // top left vertex
+			new Vector3(-0.6f, -0.3f, -2.2f), // top right vertex 
+			new Vector3(-0.6f, -0.5f, -2.2f), // bottom right vertex
+			new Vector3(-0.6f, -0.5f, -2f), // bottom left vertex
+			//back face
+			new Vector3(-0.6f, -0.3f, -2.2f), // top left vertex
+			new Vector3(-0.8f, -0.3f, -2.2f), // top right vertex 
+			new Vector3(-0.8f, -0.5f, -2.2f), // bottom right vertex
+			new Vector3(-0.6f, -0.5f, -2.2f), // bottom left vertex
+			//left face
+			new Vector3(-0.8f, -0.3f, -2.2f), // top left vertex
+			new Vector3(-0.8f, -0.3f, -2f), // top right vertex 
+			new Vector3(-0.8f, -0.5f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.5f, -2.2f), // bottom left vertex
+			//top face
+			new Vector3(-0.8f, -0.3f, -2.2f), // top left vertex
+			new Vector3(-0.6f, -0.3f, -2.2f), // top right vertex 
+			new Vector3(-0.6f, -0.3f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.3f, -2f), // bottom left vertex
+			//bottom face
+			new Vector3(-0.8f, -0.5f, -2.2f), // top left vertex
+			new Vector3(-0.6f, -0.5f, -2.2f), // top right vertex 
+			new Vector3(-0.6f, -0.5f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.5f, -2f), // bottom left vertex
 		};
 		Indices indices = new Indices();
 		TexCoord texCoord = new TexCoord();
@@ -40,7 +66,7 @@ namespace Game
 			//Create, bind VBO
 			glassVBO = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, glassVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, glassVertices.Length * sizeof(float), glassVertices, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, glassVertices.Count * Vector3.SizeInBytes, glassVertices.ToArray(), BufferUsageHint.StaticDraw);
 			//Point slot of VAO 0
 			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
 			GL.EnableVertexArrayAttrib(glassVAO, 0);
@@ -55,13 +81,14 @@ namespace Game
 			//Create, bind texture
 			glassTextureVBO = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, glassTextureVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Length * sizeof(float), texCoord.texCoord, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Count * Vector2.SizeInBytes, texCoord.texCoord.ToArray(), BufferUsageHint.StaticDraw);
 			//Point slot of VAO 1
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
 			GL.EnableVertexArrayAttrib(glassVAO, 1);
 			//Unbind VBO
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindVertexArray(0);
+			GL.Enable(EnableCap.DepthTest);
 		}
 		public void TextureGlass()
 		{

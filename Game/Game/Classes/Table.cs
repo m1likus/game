@@ -18,10 +18,10 @@ namespace Game
 	{
 		float[] tableVertices =
 		{
-			-1f, 1f, -2f, // top left 0
-			1f, 1f, -2f, //top right 1
-			1f, -1f, -2f, // bottom right 2
-			-1f, -1f, -2f, //bottom left 3
+			-1f, 1f, -2.3f, // top left 0
+			1f, 1f, -2.3f, //top right 1
+			1f, -1f, -2.3f, // bottom right 2
+			-1f, -1f, -2.3f, //bottom left 3
 		};
 
 		Indices indices = new Indices();
@@ -57,13 +57,14 @@ namespace Game
 			//Create, bind texture
 			tableTextureVBO = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, tableTextureVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Length * sizeof(float), texCoord.texCoord, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Count * Vector2.SizeInBytes, texCoord.texCoord.ToArray(), BufferUsageHint.StaticDraw);
 			//Point slot of VAO 1
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
 			GL.EnableVertexArrayAttrib(tableVAO, 1);
 			//Unbind VBO
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindVertexArray(0);
+			GL.Enable(EnableCap.DepthTest);
 		}
 		public void TextureTable()
 		{
@@ -86,8 +87,6 @@ namespace Game
 			GL.BindVertexArray(tableVAO);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, tableEBO);
 			GL.BindTexture(TextureTarget.Texture2D, tableTextureID);
-
-
 		}
 		public void UnLoadTable()
 		{

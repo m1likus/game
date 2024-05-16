@@ -17,14 +17,39 @@ namespace Game
 {
 	public class Cookie
 	{
-		float[] cookieVertices =
+		List<Vector3> cookieVertices = new List<Vector3>()
 		{
-			-0.8f, -0.3f, -2f, // top left 0
-			-0.6f, -0.3f, -2f, // top right 1
-			-0.6f, -0.5f, -2f, // bottom right 2
-			-0.8f, -0.5f, -2f //bottom left 3
+			//front face
+			new Vector3(-0.8f, -0.3f, -2f), // top left vertex
+			new Vector3(-0.6f, -0.3f, -2f), // top right vertex 
+			new Vector3(-0.6f, -0.5f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.5f, -2f), // bottom left vertex
+			//right face
+			new Vector3(-0.6f, -0.3f, -2f), // top left vertex
+			new Vector3(-0.6f, -0.3f, -2.2f), // top right vertex 
+			new Vector3(-0.6f, -0.5f, -2.2f), // bottom right vertex
+			new Vector3(-0.6f, -0.5f, -2f), // bottom left vertex
+			//back face
+			new Vector3(-0.6f, -0.3f, -2.2f), // top left vertex
+			new Vector3(-0.8f, -0.3f, -2.2f), // top right vertex 
+			new Vector3(-0.8f, -0.5f, -2.2f), // bottom right vertex
+			new Vector3(-0.6f, -0.5f, -2.2f), // bottom left vertex
+			//left face
+			new Vector3(-0.8f, -0.3f, -2.2f), // top left vertex
+			new Vector3(-0.8f, -0.3f, -2f), // top right vertex 
+			new Vector3(-0.8f, -0.5f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.5f, -2.2f), // bottom left vertex
+			//top face
+			new Vector3(-0.8f, -0.3f, -2.2f), // top left vertex
+			new Vector3(-0.6f, -0.3f, -2.2f), // top right vertex 
+			new Vector3(-0.6f, -0.3f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.3f, -2f), // bottom left vertex
+			//bottom face
+			new Vector3(-0.8f, -0.5f, -2.2f), // top left vertex
+			new Vector3(-0.6f, -0.5f, -2.2f), // top right vertex 
+			new Vector3(-0.6f, -0.5f, -2f), // bottom right vertex
+			new Vector3(-0.8f, -0.5f, -2f), // bottom left vertex
 		};
-
 
 		Indices indices = new Indices();
 		TexCoord texCoord = new TexCoord();
@@ -44,7 +69,7 @@ namespace Game
 			//Create, bind VBO
 			cookieVBO = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, cookieVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, cookieVertices.Length * sizeof(float), cookieVertices, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, cookieVertices.Count * Vector3.SizeInBytes, cookieVertices.ToArray(), BufferUsageHint.StaticDraw);
 			//Point slot of VAO 0
 			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
 			GL.EnableVertexArrayAttrib(cookieVAO, 0);
@@ -59,13 +84,14 @@ namespace Game
 			//Create, bind texture
 			cookieTextureVBO = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, cookieTextureVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Length * sizeof(float), texCoord.texCoord, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, texCoord.texCoord.Count * Vector2.SizeInBytes, texCoord.texCoord.ToArray(), BufferUsageHint.StaticDraw);
 			//Point slot of VAO 1
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
 			GL.EnableVertexArrayAttrib(cookieVAO, 1);
 			//Unbind VBO
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			GL.BindVertexArray(0);
+			GL.Enable(EnableCap.DepthTest);
 		}
 		public void TextureCookie()
 		{

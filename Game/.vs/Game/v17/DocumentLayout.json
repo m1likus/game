@@ -7,24 +7,8 @@
       "RelativeMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|solutionrelative:game\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|c:\\users\\kabal\\desktop\\computer graphics\\opentk\\game\\game\\classes\\table.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|solutionrelative:game\\classes\\table.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|c:\\users\\kabal\\desktop\\computer graphics\\opentk\\game\\game\\classes\\glass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|solutionrelative:game\\classes\\glass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|c:\\users\\kabal\\desktop\\computer graphics\\opentk\\game\\game\\classes\\cookie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|solutionrelative:game\\classes\\cookie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|c:\\users\\kabal\\desktop\\computer graphics\\opentk\\game\\game\\shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|solutionrelative:game\\shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|c:\\users\\kabal\\desktop\\computer graphics\\opentk\\game\\game\\shaders\\shader.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|solutionrelative:game\\shaders\\shader.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|c:\\users\\kabal\\desktop\\computer graphics\\opentk\\game\\game\\parsingobj.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B151747-C812-4862-B4C4-480A5FC5AE16}|Game\\Game.csproj|solutionrelative:game\\parsingobj.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,71 +18,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "shader.vert",
-              "DocumentMoniker": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Shaders\\shader.vert",
-              "RelativeDocumentMoniker": "Game\\Shaders\\shader.vert",
-              "ToolTip": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Shaders\\shader.vert",
-              "RelativeToolTip": "Game\\Shaders\\shader.vert",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAA/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-05-09T15:26:45.44Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "shader.frag",
-              "DocumentMoniker": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Shaders\\shader.frag",
-              "RelativeDocumentMoniker": "Game\\Shaders\\shader.frag",
-              "ToolTip": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Shaders\\shader.frag",
-              "RelativeToolTip": "Game\\Shaders\\shader.frag",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-05-09T14:59:00.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Glass.cs",
-              "DocumentMoniker": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Classes\\Glass.cs",
-              "RelativeDocumentMoniker": "Game\\Classes\\Glass.cs",
-              "ToolTip": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Classes\\Glass.cs",
-              "RelativeToolTip": "Game\\Classes\\Glass.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T14:58:00.834Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Cookie.cs",
-              "DocumentMoniker": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Classes\\Cookie.cs",
-              "RelativeDocumentMoniker": "Game\\Classes\\Cookie.cs",
-              "ToolTip": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Classes\\Cookie.cs",
-              "RelativeToolTip": "Game\\Classes\\Cookie.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T14:49:59.113Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Table.cs",
-              "DocumentMoniker": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Classes\\Table.cs",
-              "RelativeDocumentMoniker": "Game\\Classes\\Table.cs",
-              "ToolTip": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Classes\\Table.cs",
-              "RelativeToolTip": "Game\\Classes\\Table.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAhAAAA",
+              "Title": "ParsingObj.cs",
+              "DocumentMoniker": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\ParsingObj.cs",
+              "RelativeDocumentMoniker": "Game\\ParsingObj.cs",
+              "ToolTip": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\ParsingObj.cs",
+              "RelativeToolTip": "Game\\ParsingObj.cs",
+              "ViewState": "AQIAABoAAAAAAAAAAAAiwGUAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T14:54:19.854Z",
+              "WhenOpened": "2024-05-16T15:53:19.491Z",
               "EditorCaption": ""
             },
             {
@@ -109,7 +41,7 @@
               "RelativeDocumentMoniker": "Game\\Game.cs",
               "ToolTip": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Game.cs",
               "RelativeToolTip": "Game\\Game.cs",
-              "ViewState": "AQIAAJYAAAAAAAAAAAAswKoAAAApAAAA",
+              "ViewState": "AQIAANQAAAAAAAAAAADwv+QAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-09T14:09:47.594Z",
               "EditorCaption": ""
