@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Audio.OpenAL;
+using OpenTK.Graphics.Egl;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -16,13 +17,45 @@ namespace Game
 {
 	public class Table
 	{
-		float[] tableVertices =
-		{
-			-1f, 1f, -2.3f, // top left 0
-			1f, 1f, -2.3f, //top right 1
-			1f, -1f, -2.3f, // bottom right 2
-			-1f, -1f, -2.3f, //bottom left 3
+		List<Vector3> tableVertices = new List<Vector3> 
+		{	
+			//front face
+			new Vector3(-5f,-1.5f,-1f), //top left 
+			new Vector3(5f,-1.5f,-1f), //top right
+			new Vector3(5f,-1.7f,-1f), //bottom right
+			new Vector3(-5f,-1.7f,-1f), //bottom left
+
+			//right face
+			new Vector3(5f,-1.5f,-1f), //top left 
+			new Vector3(5f,-1.5f,-4f), //top right
+			new Vector3(5f,-1.7f,-4f), //bottom right
+			new Vector3(5f,-1.7f,-1f), //bottom left
+
+			//back face
+			new Vector3(-5f,-1.5f,-4f), //top left 
+			new Vector3( 5f,-1.5f,-4f), //top right
+			new Vector3( 5f,-1.7f,-4f), //bottom right
+			new Vector3(-5f,-1.7f,-4f), //bottom left
+
+			//left face
+			new Vector3(-5f,-1.5f,-4f), //top left 
+			new Vector3(-5f,-1.5f,-1f), //top right
+			new Vector3(-5f,-1.7f,-1f), //bottom right
+			new Vector3(-5f,-1.7f,-4f), //bottom left
+
+			//top face 
+			new Vector3(-5f,-1.5f,-4f), //top left 
+			new Vector3(5f,-1.5f,-4f), //top right
+			new Vector3(5f,-1.5f,-1f), //bottom right
+			new Vector3(-5f,-1.5f,-1f), //bottom left
+
+			//bottom face
+			new Vector3(-5f,-1.7f,-4f), //top left 
+			new Vector3(5f,-1.7f,-4f), //top right
+			new Vector3(5f,-1.7f,-1f), //bottom right
+			new Vector3(-5f,-1.7f,-1f), //bottom left
 		};
+
 
 		Indices indices = new Indices();
 		TexCoord texCoord = new TexCoord();
@@ -33,7 +66,6 @@ namespace Game
 		public int tableTextureID;
 		public int tableTextureVBO;
 
-
 		public void LoadTable()
 		{
 			//Create, bind VAO
@@ -42,7 +74,7 @@ namespace Game
 			//Create, bind VBO
 			tableVBO = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, tableVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, tableVertices.Length * sizeof(float), tableVertices, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, tableVertices.Count * Vector3.SizeInBytes, tableVertices.ToArray(), BufferUsageHint.StaticDraw);
 			//Point slot of VAO 0
 			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
 			GL.EnableVertexArrayAttrib(tableVAO, 0);
@@ -78,9 +110,9 @@ namespace Game
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
 			StbImage.stbi_set_flip_vertically_on_load(1);
-			ImageResult tableTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/table.jpg"), ColorComponents.RedGreenBlueAlpha);
+			ImageResult tableTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/wood.jpg"), ColorComponents.RedGreenBlueAlpha);
 			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, tableTexture.Width, tableTexture.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, tableTexture.Data);
-			GL.BindTexture(TextureTarget.Texture2D, 0);
+			GL.BindTexture(TextureTarget.Texture2D, 0);	
 		}
 		public void BindTable()
 		{

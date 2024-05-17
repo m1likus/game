@@ -5051,19 +5051,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kabal\\.nuget\\packages\\": {}
+    "C:\\Users\\Valeria\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Game.csproj",
+      "projectUniqueName": "C:\\Users\\Valeria\\Desktop\\computer graphics\\Lab2-OpenTK\\Game\\Game\\Game.csproj",
       "projectName": "Game",
-      "projectPath": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\Game.csproj",
-      "packagesPath": "C:\\Users\\kabal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kabal\\Desktop\\computer graphics\\OpenTK\\Game\\Game\\obj\\",
+      "projectPath": "C:\\Users\\Valeria\\Desktop\\computer graphics\\Lab2-OpenTK\\Game\\Game\\Game.csproj",
+      "packagesPath": "C:\\Users\\Valeria\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Valeria\\Desktop\\computer graphics\\Lab2-OpenTK\\Game\\Game\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\kabal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Valeria\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5123,7 +5123,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
